@@ -1,1 +1,16 @@
-GET http://localhost:3000
+GET http://localhost:3000/authors
+content-type: application/json
+
+{
+    "searchOptions": {
+        "names" : "Joh"
+    }
+}
+###
+
+GET http://localhost:3000/books
+content-type: application/json
+
+{
+    
+}
