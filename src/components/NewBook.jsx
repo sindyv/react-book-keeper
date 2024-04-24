@@ -1,4 +1,5 @@
 import { useLoaderData, useRouteError, redirect } from "react-router"
+
 import BooksInputs from "./BooksInputs"
 import { Form, Link } from "react-router-dom"
 import { getAuthors } from "../API"
@@ -10,7 +11,7 @@ function NewBook({ error }) {
 		<>
 			<h2>New Book</h2>
 			{error ? error.message : null}
-			<Form method="post" encType="multipart/form-data">
+			<Form method="post">
 				<BooksInputs authors={authors} />
 				<Link to={"/books"}>Cancel</Link>
 				<button type="submit">Create</button>
@@ -21,16 +22,16 @@ function NewBook({ error }) {
 
 export async function action({ request, params }) {
 	const formData = await request.formData()
-	// const data = Object.fromEntries(formData)
-	// console.log(data)
-	console.log(formData)
+	const data = Object.fromEntries(formData)
+	console.log(data)
+	// console.log(formData)
 
 	const result = await fetch("http://localhost:3000/books/new", {
 		method: "POST",
-		// headers: {
-		// 	// "Content-Type": "application/json",
-		// },
-		body: formData,
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(data),
 	})
 	const resJson = await result.json()
 

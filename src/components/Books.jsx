@@ -52,7 +52,7 @@ function Books() {
 						<img
 							height={150}
 							width={100}
-							src={`http://localhost:3000/${book.coverImagePath}`}
+							src={`${book.coverImagePath}`}
 							key={book._id}
 						/>
 					)

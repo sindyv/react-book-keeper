@@ -1,3 +1,31 @@
+import FilePondPluginFileEncode from "filepond-plugin-file-encode"
+import FilePondPluginImagePreview from "filepond-plugin-image-preview"
+import FilePondPluginImageResize from "filepond-plugin-image-resize"
+import { FilePond, registerPlugin } from "react-filepond"
+import { create, setOptions } from "filepond"
+import "filepond/dist/filepond.min.css"
+import { useState } from "react"
+
+registerPlugin(
+	FilePondPluginImagePreview,
+	FilePondPluginFileEncode,
+	FilePondPluginImageResize
+)
+
+setOptions({
+	stylePanelAspectRatio: 150 / 100,
+	imageResizeTargetWidth: 100,
+	imageResizeTargetHeight: 150,
+	allowFileEncode: true,
+})
+
+const input = document.querySelector('input[type="file"]')
+
+// Create a FilePond instance
+create(input, {
+	// storeAsFile: true,
+})
+
 function BooksInputs({ authors = [] }) {
 	return (
 		<>
@@ -27,7 +55,7 @@ function BooksInputs({ authors = [] }) {
 			</div>
 			<div>
 				<label>Cover</label>
-				<input type="file" name="cover" />
+				<input type="file" name="cover" className="filepond" />
 			</div>
 			<div>
 				<label>Description</label>
