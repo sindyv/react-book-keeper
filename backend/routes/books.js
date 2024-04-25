@@ -2,13 +2,13 @@ const express = require("express")
 const router = express.Router()
 
 const Book = require("../models/book")
-const path = require("path")
+// const path = require("path")
 
 const fs = require("fs")
+const imageMimeTypes = ["image/jpeg", "image/png", "image/gif"]
 
 // const multer = require("multer")
-const uploadPath = path.join("public", Book.coverImageBasePath)
-const imageMimeTypes = ["image/jpeg", "image/png", "image/gif"]
+// const uploadPath = path.join("public", Book.coverImageBasePath)
 // const upload = multer({
 // 	dest: uploadPath,
 // 	fileFilter: (req, file, cb) => {
@@ -58,6 +58,7 @@ router.post("/new", async (req, res) => {
 	})
 
 	saveCover(book, req.body.cover)
+
 	try {
 		const newBook = await book.save()
 		res.status(201).json(newBook)
@@ -68,11 +69,24 @@ router.post("/new", async (req, res) => {
 	}
 })
 
+// Find books by author
+router.get("/:author", async (req, res) => {
+	try {
+		const books = await Book.find({ author: req.params.author }).limit(6).exec()
+		console.log(books)
+		res.status(200).json(books)
+	} catch (error) {
+		res.status(500).json({ message: "There was an error finding books" })
+	}
+})
+
 function saveCover(book, coverEncoded) {
 	if (coverEncoded == null) return
 
+	// The Cover Image comes as a Base64 encoded JSON-object.
 	const cover = JSON.parse(coverEncoded)
 	if (cover != null && imageMimeTypes.includes(cover.type)) {
+		// Create a Buffer datatype from the 'data'-property of the JSON-object.
 		book.coverImage = new Buffer.from(cover.data, "base64")
 		book.coverImageType = cover.type
 	}

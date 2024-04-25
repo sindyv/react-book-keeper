@@ -17,6 +17,11 @@ import NewBook, {
 	action as newBookAction,
 } from "./components/NewBook.jsx"
 import NewBookError from "./components/NewBookError.jsx"
+import EditAuthor, {
+	loader as editAuthorLoader,
+	action as editAuthorAction,
+} from "./components/EditAuthor.jsx"
+import { action as deleteAuthorAction } from "./components/DeleteAuthor.jsx"
 
 const router = createBrowserRouter([
 	{
@@ -31,9 +36,9 @@ const router = createBrowserRouter([
 				loader: authorsLoader,
 			},
 			{
-				path: "authors/:name",
-				element: <Authors />,
-				loader: authorsLoader,
+				path: "authors/:id",
+				element: <Author />,
+				loader: authorLoader,
 			},
 
 			{
@@ -43,9 +48,16 @@ const router = createBrowserRouter([
 				action: newAuthorAction,
 			},
 			{
-				path: "authors/view/:authorId",
-				element: <Author />,
-				loader: authorLoader,
+				path: "authors/:id/edit",
+				element: <EditAuthor />,
+				loader: editAuthorLoader,
+				action: editAuthorAction,
+			},
+			{
+				path: "authors/:id/delete",
+				element: <></>,
+				action: deleteAuthorAction,
+				errorElement: <p>Ooops, there was an error deleting the author..</p>,
 			},
 			{
 				path: "books",

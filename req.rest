@@ -2,13 +2,27 @@ GET http://localhost:3000/authors
 content-type: application/json
 
 {
-    "searchOptions": {
-        "names" : "Joh"
-    }
+
 }
 ###
 
-GET http://localhost:3000/books
+GET http://localhost:3000/authors/66218d6a04b663902be87552
+content-type: application/json
+
+{
+    
+}
+###
+
+GET http://localhost:3000/books/662abb5beac66edbde5ba85e
+content-type: application/json
+
+{
+    
+}
+###
+
+DELETE http://localhost:3000/authors/66218d6a04b663902be87552
 content-type: application/json
 
 {

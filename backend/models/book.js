@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
-const path = require("path")
-const coverImageBasePath = "uploads/bookCovers"
+// const path = require("path")
+// const coverImageBasePath = "uploads/bookCovers"
 
 const bookSchema = new mongoose.Schema(
 	{
@@ -50,11 +50,13 @@ bookSchema.set("toJSON", { virtuals: true })
 // Virtual properties
 bookSchema.virtual("coverImagePath").get(function () {
 	if (this.coverImage != null && this.coverImageType != null) {
+		// Return a string which is interpeted by the <img>-element.
 		return `data:${
 			this.coverImageType
 		};charset:utf-8;base64,${this.coverImage.toString("base64")}`
 	}
 })
+
 // bookSchema.virtual("coverImagePath").get(function () {
 // 	if (this.coverImageName != null) {
 // 		return path.join("/", coverImageBasePath, this.coverImageName)
@@ -62,4 +64,4 @@ bookSchema.virtual("coverImagePath").get(function () {
 // })
 
 module.exports = mongoose.model("Book", bookSchema)
-module.exports.coverImageBasePath = coverImageBasePath
+// module.exports.coverImageBasePath = coverImageBasePath

@@ -1,4 +1,4 @@
-import { Form, useLoaderData } from "react-router-dom"
+import { Form, useLoaderData, Link } from "react-router-dom"
 import { useFetch } from "../hooks/useFetch"
 import { getAuthors } from "../API"
 import { useState } from "react"
@@ -7,7 +7,12 @@ function Authors() {
 	const { resData } = useLoaderData()
 	const [search, setSearch] = useState(resData?.searchOptions || "")
 
-	console.log(resData)
+	function handleDeleteAuthor(e) {
+		// if (!confirm("Please confirm you want to delete this record")) {
+		// 	e.preventDefault()
+		// }
+	}
+
 	return (
 		<div>
 			<h2>Search Authors</h2>
@@ -25,7 +30,18 @@ function Authors() {
 			<br />
 			<section>
 				{resData.authors.map((author) => (
-					<div key={author._id}>{author.name}</div>
+					<div key={author._id}>
+						{author.name}
+						<Link to={`/authors/${author._id}`}>View</Link>
+						<Link to={`/authors/${author._id}/edit`}>Edit</Link>
+						<Form
+							method="post"
+							action={`${author._id}/delete`}
+							onSubmit={handleDeleteAuthor}
+						>
+							<button type="submit">Delete</button>
+						</Form>
+					</div>
 				))}
 			</section>
 		</div>

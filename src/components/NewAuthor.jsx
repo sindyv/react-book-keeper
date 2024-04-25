@@ -62,7 +62,7 @@ export async function action({ request, params }) {
 		throw new Error(resJson.message || "Oh Noes!")
 	}
 
-	return redirect(`/authors/view/${author}`)
+	return redirect(`/authors/${author}`)
 }
 
 export default NewAuthor
