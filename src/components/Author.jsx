@@ -39,7 +39,7 @@ export async function loader({ params }) {
 		})
 	).json()
 	const books = await (
-		await fetch(`http://localhost:3000/books/${author["_id"]}`, {
+		await fetch(`http://localhost:3000/books/booksByAuthor/${author["_id"]}`, {
 			method: "GET",
 		})
 	).json()

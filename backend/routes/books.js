@@ -70,13 +70,59 @@ router.post("/new", async (req, res) => {
 })
 
 // Find books by author
-router.get("/:author", async (req, res) => {
+router.get("/booksByAuthor/:author", async (req, res) => {
 	try {
 		const books = await Book.find({ author: req.params.author }).limit(6).exec()
-		console.log(books)
 		res.status(200).json(books)
 	} catch (error) {
 		res.status(500).json({ message: "There was an error finding books" })
+	}
+})
+
+// Edit book
+router.put("/:id", async (req, res) => {
+	let book = {}
+	try {
+		book = await Book.findById(req.params.id)
+
+		book.description = req.body.book.description
+		book.publishDate = req.body.book.publishDate
+		book.pageCount = req.body.book.pageCount
+		book.author = req.body.book.author
+		await book.save()
+
+		res.status(201).json({ book })
+	} catch (error) {
+		res.status(500).json({ message: "There was an error updating Book" })
+	}
+})
+
+router.get("/:id/edit", async (req, res) => {
+	res.status(200).json("Edit author" + req.params.id)
+})
+
+// Find book by id
+router.get("/:id", async (req, res) => {
+	console.log(req.params)
+	try {
+		const book = await Book.findById({ _id: req.params.id })
+			.populate("author")
+			.exec()
+
+		res.status(200).json(book)
+	} catch (error) {
+		res.status(500).json({ message: "There was an error finding books" })
+	}
+})
+
+router.delete("/:id", async (req, res) => {
+	try {
+		book = await Book.deleteOne({ _id: req.params.id })
+
+		res.status(201).json({ message: "Book successfully removed" })
+	} catch (error) {
+		console.log(error)
+		res.status(500).json({ message: "There was an error deleting Book" })
 	}
 })
 

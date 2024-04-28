@@ -26,16 +26,36 @@ create(input, {
 	// storeAsFile: true,
 })
 
-function BooksInputs({ authors = [] }) {
+function BooksInputs({ authors = [], book = {} }) {
+	const [inputs, setInputs] = useState({
+		...book,
+		publishDate: book?.publishDate ? book.publishDate.split("T")[0] : undefined,
+	})
+	function handleUpdateInputs(value, prop) {
+		setInputs((prev) => {
+			const object = { ...prev }
+			object[prop] = value
+			return object
+		})
+	}
 	return (
 		<>
 			<div>
 				<label>Title</label>
-				<input type="text" name="title" />
+				<input
+					type="text"
+					name="title"
+					value={inputs.title}
+					onChange={(e) => handleUpdateInputs(e.target.value, "title")}
+				/>
 			</div>
 			<div>
 				<label>Author</label>
-				<select name="author">
+				<select
+					name="author"
+					value={inputs?.author?._id || ""}
+					onChange={(e) => handleUpdateInputs(e.target.value, "author")}
+				>
 					{authors.map((author) => (
 						<option
 							label={author.name}
@@ -47,19 +67,37 @@ function BooksInputs({ authors = [] }) {
 			</div>
 			<div>
 				<label>Publish Date</label>
-				<input type="date" name="publishDate" />
+				<input
+					type="date"
+					name="publishDate"
+					value={inputs.publishDate}
+					onChange={(e) => handleUpdateInputs(e.target.value, "publishDate")}
+				/>
 			</div>
 			<div>
 				<label>Page Count</label>
-				<input type="number" name="pageCount" min={1} />
+				<input
+					type="number"
+					name="pageCount"
+					min={1}
+					value={inputs.pageCount}
+					onChange={(e) => handleUpdateInputs(e.target.value, "pageCount")}
+				/>
 			</div>
-			<div>
-				<label>Cover</label>
-				<input type="file" name="cover" className="filepond" />
-			</div>
+			{book.hasOwnProperty("title") ? null : (
+				<div>
+					<label>Cover</label>
+					<input type="file" name="cover" className="filepond" />
+				</div>
+			)}
 			<div>
 				<label>Description</label>
-				<textarea name="description"></textarea>
+				<textarea
+					name="description"
+					onChange={(e) => handleUpdateInputs(e.target.value, "description")}
+				>
+					{inputs.description}
+				</textarea>
 			</div>
 		</>
 	)

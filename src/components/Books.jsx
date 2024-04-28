@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useLoaderData } from "react-router"
-import { Form } from "react-router-dom"
+import { Form, Link } from "react-router-dom"
 
 function Books() {
 	// Retrieve data from loader function
@@ -49,12 +49,9 @@ function Books() {
 			<section>
 				{books.map((book) => {
 					return (
-						<img
-							height={150}
-							width={100}
-							src={`${book.coverImagePath}`}
-							key={book._id}
-						/>
+						<Link to={`/books/${book._id}`} key={book._id}>
+							<img height={150} width={100} src={`${book.coverImagePath}`} />
+						</Link>
 					)
 				})}
 			</section>

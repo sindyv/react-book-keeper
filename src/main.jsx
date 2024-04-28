@@ -22,6 +22,13 @@ import EditAuthor, {
 	action as editAuthorAction,
 } from "./components/EditAuthor.jsx"
 import { action as deleteAuthorAction } from "./components/DeleteAuthor.jsx"
+import Book, { loader as bookLoader } from "./components/Book.jsx"
+import EditBook, {
+	loader as editBookLoader,
+	action as editBookAction,
+} from "./components/EditBook.jsx"
+
+import { action as deleteBookAction } from "./components/DeleteBook.jsx"
 
 const router = createBrowserRouter([
 	{
@@ -65,9 +72,20 @@ const router = createBrowserRouter([
 				loader: booksLoader,
 			},
 			{
-				path: "books/view/:bookId",
-				element: <Books />,
-				// loader: authorsLoader,
+				path: "books/:id",
+				element: <Book />,
+				loader: bookLoader,
+			},
+			{
+				path: "books/:id/edit",
+				element: <EditBook />,
+				loader: editBookLoader,
+				action: editBookAction,
+			},
+			{
+				path: "books/:id/delete",
+				element: <></>,
+				action: deleteBookAction,
 			},
 			{
 				path: "books/add",
